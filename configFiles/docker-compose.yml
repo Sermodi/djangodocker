@@ -1,0 +1,45 @@
+version: "0.0"
+
+networks:
+  {APPName}:
+    driver: bridge
+    name: {APPName}
+    ipam:
+      driver: default
+
+volumes:
+  {APPName}-dbdata:
+    name: {APPName}-dbdata
+
+services:
+    {APPName}-db:
+        image: postgres:13-alpine
+        container_name: {APPName}-db
+        restart: unless-stopped
+        hostname: {APPName}-db
+        stop_signal: SIGINT
+        ports:
+          - ${DBPORT}:5432
+        environment:
+          - POSTGRES_INITDB_ARGS=--data-checksums
+          - POSTGRES_DB=${DBNAME}
+          - POSTGRES_USER=${DBUSER}
+          - POSTGRES_PASSWORD=${DBPASSWD}
+        volumes:
+          - {APPName}-dbdata:/var/lib/postgresql/data
+        networks:
+          - {APPName}
+
+    vecinos-app:
+      image: {ImageUrl}
+      restart: unless-stopped
+      container_name: {APPName}-app
+      hostname: {APPName}-app
+      user: ${UID}:${GID}
+      command: python manage.py runserver 0.0.0.0:${WEBPORT}
+      ports:
+        - ${WEBPORT}:${WEBPORT}
+      volumes: 
+        - ./app:/app
+      networks:
+        - {APPName}

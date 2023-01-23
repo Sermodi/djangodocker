@@ -1,22 +1,22 @@
 version: "0.0"
 
 networks:
-  aikidjango:
+  {APPName}:
     driver: bridge
-    name: aikidjango
+    name: {APPName}
     ipam:
       driver: default
 
 volumes:
-  aikidjango-dbdata:
-    name: aikidjango-dbdata
+  {APPName}-dbdata:
+    name: {APPName}-dbdata
 
 services:
-    aikidjango-db:
+    {APPName}-db:
         image: postgres:13-alpine
-        container_name: aikidjango-db
+        container_name: {APPName}-db
         restart: unless-stopped
-        hostname: aikidjango-db
+        hostname: {APPName}-db
         stop_signal: SIGINT
         ports:
           - ${DBPORT}:5432
@@ -26,15 +26,15 @@ services:
           - POSTGRES_USER=${DBUSER}
           - POSTGRES_PASSWORD=${DBPASSWD}
         volumes:
-          - aikidjango-dbdata:/var/lib/postgresql/data
+          - {APPName}-dbdata:/var/lib/postgresql/data
         networks:
-          - aikidjango
+          - {APPName}
 
     vecinos-app:
-      image: ghcr.io/sermodi/djangodocker:latest
+      image: {ImageUrl}
       restart: unless-stopped
-      container_name: aikidjango-app
-      hostname: aikidjango-app
+      container_name: {APPName}-app
+      hostname: {APPName}-app
       user: ${UID}:${GID}
       command: python manage.py runserver 0.0.0.0:${WEBPORT}
       ports:
@@ -42,4 +42,4 @@ services:
       volumes: 
         - ./app:/app
       networks:
-        - aikidjango
+        - {APPName}

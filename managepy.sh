@@ -1,2 +1,2 @@
 #!/bin/bash
-docker exec -ti -u root aikidjango python manage.py $1
+docker exec -ti -u root {APPName} python manage.py $1

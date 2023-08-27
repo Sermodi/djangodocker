@@ -1,22 +1,22 @@
-version: "0.0"
+version: "3.3"
 
 networks:
-  {APPName}:
+  carepanel:
     driver: bridge
-    name: {APPName}
+    name: carepanel
     ipam:
       driver: default
 
 volumes:
-  {APPName}-dbdata:
-    name: {APPName}-dbdata
+  carepanel-dbdata:
+    name: carepanel-dbdata
 
 services:
-    {APPName}-db:
+    carepanel-db:
         image: postgres:13-alpine
-        container_name: {APPName}-db
+        container_name: carepanel-db
         restart: unless-stopped
-        hostname: {APPName}-db
+        hostname: carepanel-db
         stop_signal: SIGINT
         ports:
           - ${DBPORT}:5432
@@ -26,15 +26,15 @@ services:
           - POSTGRES_USER=${DBUSER}
           - POSTGRES_PASSWORD=${DBPASSWD}
         volumes:
-          - {APPName}-dbdata:/var/lib/postgresql/data
+          - carepanel-dbdata:/var/lib/postgresql/data
         networks:
-          - {APPName}
+          - carepanel
 
     vecinos-app:
-      image: {ImageUrl}
+      image: ghcr.io/applica2/djangodockerimage:full
       restart: unless-stopped
-      container_name: {APPName}-app
-      hostname: {APPName}-app
+      container_name: carepanel-app
+      hostname: carepanel-app
       user: ${UID}:${GID}
       command: python manage.py runserver 0.0.0.0:${WEBPORT}
       ports:
@@ -42,4 +42,4 @@ services:
       volumes: 
         - ./app:/app
       networks:
-        - {APPName}
+        - carepanel

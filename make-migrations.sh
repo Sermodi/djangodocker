@@ -1,2 +1,2 @@
 #!/bin/bash
-docker exec -ti -u root {APPName} python manage.py makemigrations
+docker exec -ti -u root carepanel-app python manage.py makemigrations

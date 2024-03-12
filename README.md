@@ -1,4 +1,4 @@
-# Proyecto Vecinos utilizando Docker
+# Proyectos utilizando Docker
 Este repositorio te permitirá lanzar la aplicación web del proyecto Vecinos utilizando la tecnología de contendores Docker. La imagen de Django que utiliza este proyecto esta alojada en GitHub y es necesario tener permisos de lectura a la propia imagen. La base datos que está configurada por defecto es PostgreSQL y se utiliza un volumen para la persistencia de los datos introducidos en la base datos.
 
 Si necesitas incluir algún paquete de Python en la imagen de Django escribe a [diego@enoges.es](mailto:diego@enoges.es) o en el canal de Slack correspondiente a este proyecto.

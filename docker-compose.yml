@@ -1,22 +1,22 @@
-version: "0.0"
+version: "3"
 
 networks:
-  {APPName}:
+  vineabot:
     driver: bridge
-    name: {APPName}
+    name: vineabot
     ipam:
       driver: default
 
 volumes:
-  {APPName}-dbdata:
-    name: {APPName}-dbdata
+  vineabot-dbdata:
+    name: vineabot-dbdata
 
 services:
-    {APPName}-db:
+    vineabot-db:
         image: postgres:13-alpine
-        container_name: {APPName}-db
+        container_name: vineabot-db
         restart: unless-stopped
-        hostname: {APPName}-db
+        hostname: vineabot-db
         stop_signal: SIGINT
         ports:
           - ${DBPORT}:5432
@@ -26,15 +26,15 @@ services:
           - POSTGRES_USER=${DBUSER}
           - POSTGRES_PASSWORD=${DBPASSWD}
         volumes:
-          - {APPName}-dbdata:/var/lib/postgresql/data
+          - vineabot-dbdata:/var/lib/postgresql/data
         networks:
-          - {APPName}
+          - vineabot
 
-    vecinos-app:
-      image: {ImageUrl}
+    vineabot-app:
+      image: ghcr.io/sermodi/djangodocker:latest
       restart: unless-stopped
-      container_name: {APPName}-app
-      hostname: {APPName}-app
+      container_name: vineabot-app
+      hostname: vineabot-app
       user: ${UID}:${GID}
       command: python manage.py runserver 0.0.0.0:${WEBPORT}
       ports:
@@ -42,4 +42,4 @@ services:
       volumes: 
         - ./app:/app
       networks:
-        - {APPName}
+        - vineabot

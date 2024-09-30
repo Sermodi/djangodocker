@@ -1,2 +1,2 @@
 #/bin/bash
-docker exec -ti -u root {APPName} python manage.py migrate
+docker exec -ti -u root vineabot-app python manage.py migrate

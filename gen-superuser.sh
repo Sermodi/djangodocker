@@ -1,2 +1,2 @@
 #!/bin/bash
-docker-compose run --rm {APPName} python manage.py createsuperuser
+docker-compose run --rm vineabot-app python manage.py createsuperuser

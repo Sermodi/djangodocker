@@ -1,2 +1,2 @@
 #!/bin/bash
-docker exec -ti {APPName} python manage.py collectstatic
+docker exec -ti vineabot-app python manage.py collectstatic

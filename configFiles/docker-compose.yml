@@ -1,4 +1,4 @@
-version: "0.0"
+version: "3.2"
 
 networks:
   {APPName}:
@@ -30,7 +30,7 @@ services:
         networks:
           - {APPName}
 
-    vecinos-app:
+    {APPName}-app:
       image: {ImageUrl}
       restart: unless-stopped
       container_name: {APPName}-app
